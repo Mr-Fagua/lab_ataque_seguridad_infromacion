@@ -1,12 +1,37 @@
 import React, { useState } from "react";
+import { loginService } from "../services/loginService"; 
+import type { LoginData } from "../types/AuthTypes";
+import axios from "axios";
 
 const LoginForm: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log({ email, password });
+
+    const data: LoginData = {
+      usuario: email,
+      password: password,
+    };
+
+    try {
+      const response = await loginService(data);
+      console.log("Respuesta del servidor:", response);
+
+      // ✅ Redirigir si el backend responde 200
+      if (response.status === 200) {
+        window.location.href = "https://virtual.usbbog.edu.co/login/index.php";
+      }
+    } catch (error) {
+      // 👇 Tipado seguro usando axios error
+      if (axios.isAxiosError(error)) {
+        console.error("Error de Axios:", error.response?.data || error.message);
+      } else {
+        console.error("Error desconocido:", error);
+      }
+      alert("Hubo un problema al enviar los datos.");
+    }
   };
 
   return (

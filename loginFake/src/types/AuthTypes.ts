@@ -7,11 +7,10 @@ export interface User {
 
 
 export interface LoginData {
-  email: string;
+  usuario: string;
   password: string;
 }
 
 export interface LoginResponse {
-  token: string;
-  user: User;
+  message: string;
 }

@@ -1,0 +1,17 @@
+
+# =============================
+# BACKEND
+# =============================
+backend_loginfake/node_modules/
+backend_loginfake/.env
+backend_loginfake/key/
+
+
+
+# =============================
+# FRONTEND
+# =============================
+loginFake/node_modules/
+loginFake/.env
+
+
