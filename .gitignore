@@ -13,5 +13,6 @@ backend_loginfake/key/
 # =============================
 loginFake/node_modules/
 loginFake/.env
+loginFake/package-lock.json
 
 
