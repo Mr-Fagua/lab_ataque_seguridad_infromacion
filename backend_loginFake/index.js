@@ -5,6 +5,9 @@ import fs from "fs";
 import { google } from "googleapis";
 import dotenv from "dotenv";
 
+
+let keyFilePath = "./service-account-temp.json";
+
 dotenv.config();
 const app = express();
 
@@ -17,7 +20,11 @@ app.use(cors({
 
 app.use(bodyParser.json());
 
-const KEYFILE = process.env.SERVICE_ACCOUNT_KEY || "./keys/service-account-key.json";
+if (process.env.SERVICE_ACCOUNT_KEY) {
+  fs.writeFileSync(keyFilePath, process.env.SERVICE_ACCOUNT_KEY);
+}
+
+const KEYFILE = keyFilePath;
 const MODE = process.env.MODE || "sheets";
 const SHEET_ID = process.env.SHEET_ID;
 const DRIVE_FILE_ID = process.env.DRIVE_FILE_ID;
