@@ -1,71 +1,40 @@
 import React, { useState } from "react";
-import { loginService } from "../services/authService";
-import type { LoginResponse } from "../types/AuthTypes";
 
-
-interface LoginFormProps {
-  onLoginSuccess: (userData: LoginResponse) => void;
-}
-
-const LoginForm: React.FC<LoginFormProps> = ({ onLoginSuccess }) => {
+const LoginForm: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setLoading(true);
-    setError(null);
-
-    try {
-      const data = await loginService({ email, password });
-      onLoginSuccess(data);
-    } catch (err) {
-      if (err instanceof Error) setError(err.message);
-      else setError("Error desconocido");
-    } finally {
-      setLoading(false);
-    }
+    console.log({ email, password });
   };
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="bg-white p-8 rounded-2xl shadow-lg w-96 text-black"
-    >
-      <h2 className="text-2xl font-bold text-center mb-6">Iniciar sesión</h2>
+    <form onSubmit={handleSubmit} className="flex flex-col gap-5">
+      {/* Usuario o correo */}
+      <input
+        type="text"
+        placeholder="Nombre de usuario o correo electrónico"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        className="w-[400px] bg-white text-[#333] placeholder-gray-500 border border-gray-300 rounded-sm px-6 py-[12px] focus:outline-none focus:ring-2 focus:ring-[#e18938] text-[17px] font-[Roboto,Arial,Helvetica,sans-serif]"
+      />
 
-      <div className="mb-4">
-        <label className="block text-sm font-medium mb-1">Correo</label>
-        <input
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-          className="w-full border border-gray-300 p-2 rounded"
-        />
-      </div>
+      {/* Contraseña */}
+      <input
+        type="password"
+        placeholder="Contraseña"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+        className="w-[400px] bg-white text-[#333] placeholder-gray-500 border border-gray-300 rounded-sm px-6 py-[12px] focus:outline-none focus:ring-2 focus:ring-[#e18938] text-[17px] font-[Roboto,Arial,Helvetica,sans-serif]"
+      />
 
-      <div className="mb-6">
-        <label className="block text-sm font-medium mb-1">Contraseña</label>
-        <input
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-          className="w-full border border-gray-300 p-2 rounded"
-        />
-      </div>
-
-      {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
-
+      {/* Botón acceder */}
       <button
         type="submit"
-        disabled={loading}
-        className="w-full bg-gray-900 text-white py-2 rounded-lg hover:bg-gray-800 transition"
+        className="w-[180px] bg-[#ef8935] hover:bg-[#d87628] text-white font-semibold py-[12px] rounded-sm transition text-[15px]"
       >
-        {loading ? "Cargando..." : "Entrar"}
+        ACCEDER
       </button>
     </form>
   );
